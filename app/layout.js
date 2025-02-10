@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "components/mui/theme";
 import { Noto_Sans_JP } from "next/font/google";
 import { Box } from "@mui/material";
+import Footer from "components/layout/footer";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -69,6 +70,7 @@ export default function RootLayout({ children }) {
             <Box sx={{ flex: 1 }}>{children}</Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
+        <Footer sx={{ marginTop: "auto" }} />
       </body>
     </html>
   );
