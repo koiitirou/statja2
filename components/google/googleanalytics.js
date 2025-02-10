@@ -3,8 +3,7 @@ import { existsGaId, GA_ID } from "./gtag";
 
 const GoogleAnalytics = () => (
   <>
-    {existsGaId && (
-      // && process.env.NODE_ENV == "production"
+    {existsGaId && process.env.NODE_ENV == "production" && (
       <>
         <Script
           defer
