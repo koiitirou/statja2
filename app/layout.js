@@ -55,6 +55,9 @@ export const metadata = {
   //   creator: "@statja10",
   //   images: "https://www.statja.com/icon.png",
   // },
+  icons: {
+    icon: [{ url: "fa1.png", type: "image/png" }],
+  },
 };
 export default function RootLayout({ children }) {
   return (
@@ -67,7 +70,10 @@ export default function RootLayout({ children }) {
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Box sx={{ flex: 1 }}>{children}</Box>
+            <Box sx={{ flex: 1 }}>
+              {/* <ResBar /> */}
+              {children}
+            </Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
         <Footer sx={{ marginTop: "auto" }} />

@@ -14,7 +14,12 @@ const footerLink = [
 const Footer = () => {
   return (
     <footer>
-      <Container>
+      <Container
+        component="footer"
+        sx={{
+          borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+        }}
+      >
         <Box
           pt={{ xs: 1 }}
           textAlign="center"

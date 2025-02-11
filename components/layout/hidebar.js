@@ -7,7 +7,8 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Slide from "@mui/material/Slide";
-import TimelineIcon from "@mui/icons-material/Timeline";
+// import TimelineIcon from "@mui/icons-material/Timeline";
+import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 import theme from "components/mui/theme";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -15,7 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
-import AppSearch from "components/functio2/appSearch";
+// import AppSearch from "components/functio2/appSearch";
 
 // import Divider from "@mui/material/Divider";
 // import Drawer from "@mui/material/Drawer";
@@ -54,8 +55,24 @@ HideOnScroll.propTypes = {
   window: PropTypes.func,
 };
 
-const pages = ["日間セルラン", "月間セルラン"];
-const pagesHref = ["/", "/month"];
+const pages = [
+  "人口ピラミッド",
+  "世界",
+  "都道府県",
+  "市区町村",
+  "病院",
+  "処方薬",
+  "特定健診",
+];
+const pagesHref = [
+  "/pyramid/JP",
+  "/world/",
+  "/prefecture/",
+  "/city/",
+  "hospital/",
+  "/ndb/",
+  "/ndb/checkup/",
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function HideAppBar(props) {
@@ -141,7 +158,7 @@ export default function HideAppBar(props) {
         >
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              <TimelineIcon
+              <AnalyticsRoundedIcon
                 sx={{
                   display: { xs: "none", md: "flex" },
                   mr: 1,
@@ -163,7 +180,7 @@ export default function HideAppBar(props) {
                   textDecoration: "none",
                 }}
               >
-                アプリアル
+                統計リアル
               </Typography>
 
               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -210,7 +227,7 @@ export default function HideAppBar(props) {
                 </Menu>
               </Box>
               <Box href="/" component="a">
-                <TimelineIcon
+                <AnalyticsRoundedIcon
                   sx={{
                     display: { xs: "flex", md: "none" },
                     mr: 1,
@@ -218,7 +235,7 @@ export default function HideAppBar(props) {
                   }}
                 />
               </Box>
-              {/* <Typography
+              <Typography
                 variant="h5"
                 noWrap
                 component="a"
@@ -234,8 +251,8 @@ export default function HideAppBar(props) {
                   textDecoration: "none",
                 }}
               >
-                アプリアル
-              </Typography> */}
+                統計リアル
+              </Typography>
               <Box
                 // variant="h5"
                 // noWrap
@@ -252,7 +269,7 @@ export default function HideAppBar(props) {
                   textDecoration: "none",
                 }}
               >
-                <AppSearch />
+                {/* <AppSearch /> */}
               </Box>
               <Box
                 sx={{
@@ -280,7 +297,7 @@ export default function HideAppBar(props) {
                     </Button>
                   </Link>
                 ))}
-                <AppSearch />
+                {/* <AppSearch /> */}
               </Box>
             </Toolbar>
           </Container>
