@@ -1,5 +1,3 @@
-// import { Geist, Geist_Mono } from "next/font/google";
-// import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import GoogleAnalytics from "components/google/googleanalytics";
 import { ThemeProvider } from "@mui/material/styles";
@@ -11,16 +9,6 @@ import Footer from "components/layout/footer";
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
 });
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 const siteName = "統計リアル";
 const description =
@@ -55,9 +43,9 @@ export const metadata = {
   //   creator: "@statja10",
   //   images: "https://www.statja.com/icon.png",
   // },
-  icons: {
-    icon: [{ url: "fa1.png", type: "image/png" }],
-  },
+  // icons: {
+  //   icon: [{ url: "fa1.png", type: "image/png" }],
+  // },
 };
 export default function RootLayout({ children }) {
   return (

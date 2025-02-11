@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardActionArea,
 } from "@mui/material";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const Blogcard = (props) => {
   return (
     <CardActionArea href={props.href1}>
@@ -47,3 +47,5 @@ const Blogcard = (props) => {
     </CardActionArea>
   );
 };
+
+export default Blogcard;
