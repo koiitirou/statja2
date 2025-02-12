@@ -5,6 +5,7 @@ import theme from "components/mui/theme";
 import { Noto_Sans_JP } from "next/font/google";
 import { Box } from "@mui/material";
 import Footer from "components/layout/footer";
+import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
