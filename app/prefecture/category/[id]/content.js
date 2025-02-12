@@ -6,7 +6,7 @@ import { server } from "components/data/config";
 import Pr2_map from "components/function/pr2_map";
 
 const Content = ({ ssg0, id, thisParams }) => {
-  console.log(ssg0);
+  //   console.log(ssg0);
   ///marks
   const [ssg1, setSsg1] = useState(ssg0);
   const [isfetch, setIsfetch] = useState(false);
@@ -33,7 +33,6 @@ const Content = ({ ssg0, id, thisParams }) => {
       setIsfetch(true);
     }
   }, [id, isfetch]);
-  console.log(isfetch);
   var marks = [];
   for (let i = 0; i < ssg1.def.tml.length; i++) {
     var thisYear = {};

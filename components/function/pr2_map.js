@@ -9,10 +9,11 @@ import {
 import { scaleQuantize } from "d3-scale";
 //import { tsv, json } from 'd3-fetch';
 import { Box, Typography, Stack } from "@mui/material";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import Slider from "@mui/material/Slider";
 import Chip from "@mui/material/Chip";
 import geoUrl from "components/data/map.json";
+import ReactDOMServer from "react-dom/server";
 const color1 = [
   "#F7FBFF",
   "#DEEBF7",
@@ -43,7 +44,7 @@ const MapChart = (props) => {
   const [value, setValue] = useState(useMemo(() => ssg1.def.tmx));
   const [data, setData] = useState(useMemo(() => ssg1.tab[ssg1.def.tmx].data));
   const [gid, setGid] = useState(data[0].p[1]);
-  const [html1, setHtml1] = useState();
+  // const [html1, setHtml1] = useState();
   //////////
 
   useEffect(() => {
@@ -52,115 +53,114 @@ const MapChart = (props) => {
     }
   }, [ssg1, value]);
 
-  useEffect(() => {
+  const html2 = useMemo(() => {
     if (props.isfetch) {
       var cur2 = ssg1.tab[value].data.find((s) => s.p[1] == gid);
-      var html2 = () => {
-        return (
-          <div>
-            <Typography content="h6">
-              {cur2 ? ssg1.ref[cur2.p[1]].td_name : ""} {value}
-            </Typography>
+      // var html2 = () => {
+      return (
+        <div>
+          <Typography content="h6">
+            {cur2 ? ssg1.ref[cur2.p[1]].td_name : ""} {value}
+          </Typography>
 
-            <Box sx={{ fontSize: { xs: "12px", sm: "14px" } }}>
-              <table className="table">
-                <tbody>
-                  <tr>
-                    <th>分類</th>
-                    <th>値</th>
-                  </tr>
+          <Box sx={{ fontSize: { xs: "12px", sm: "14px" } }}>
+            <table className="table">
+              <tbody>
+                <tr>
+                  <th>分類</th>
+                  <th>値</th>
+                </tr>
 
-                  <tr>
-                    <td>{ssg1.def.tl1}</td>
-                    <td>
-                      {cur2
-                        ? Number(cur2.v[0]).toLocaleString(undefined, {
-                            maximumFractionDigits: 2,
-                          })
-                        : ""}
-                      {ssg1.def.ut1}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>順位</td>
-                    <td>{cur2 ? cur2.r + "位" : ""}</td>
-                  </tr>
-                  <tr>
-                    <td>前年比</td>
-                    <td>
-                      {ssg1.def.tmn != value && (
-                        <span
-                          className={
-                            cur2.d < 0
-                              ? "mi1"
-                              : (cur2.d == 0) | (cur2.d == "NaN")
-                              ? "ne1"
-                              : "pl1"
-                          }
-                        >
-                          {(cur2.d < 0) | (cur2.d == "NaN") ? "" : "+"}
-                          {cur2.d == "NaN"
-                            ? ""
-                            : cur2.d == "Inf"
-                            ? "Inf%"
-                            : `${Number(cur2.d).toFixed(2)}%`}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>前年差（値）</td>
-                    <td>
-                      {ssg1.def.tmn != value && (
-                        <span
-                          className={
-                            cur2.f < 0 ? "mi1" : cur2.f == 0 ? "ne1" : "pl1"
-                          }
-                        >
-                          {cur2.f < 0 ? "" : "+"}
-                          {cur2 ? Number(cur2.f).toLocaleString() : ""}
-                          {ssg1.def.ut1}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>前年差（順位）</td>
-                    <td>
-                      {ssg1.def.tmn != value && (
-                        <span
-                          className={
-                            cur2.n * -1 < 0
-                              ? "mi1"
-                              : cur2.n == 0
-                              ? "ne1"
-                              : "pl1"
-                          }
-                        >
-                          {cur2.n * -1 < 0 ? "" : "+"}
-                          {cur2 ? Number(cur2.n * -1) : ""}位
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </Box>
-          </div>
-        );
-      };
-      setHtml1(html2);
-      setContent(html2);
+                <tr>
+                  <td>{ssg1.def.tl1}</td>
+                  <td>
+                    {cur2
+                      ? Number(cur2.v[0]).toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })
+                      : ""}
+                    {ssg1.def.ut1}
+                  </td>
+                </tr>
+                <tr>
+                  <td>順位</td>
+                  <td>{cur2 ? cur2.r + "位" : ""}</td>
+                </tr>
+                <tr>
+                  <td>前年比</td>
+                  <td>
+                    {ssg1.def.tmn != value && (
+                      <span
+                        className={
+                          cur2.d < 0
+                            ? "mi1"
+                            : (cur2.d == 0) | (cur2.d == "NaN")
+                            ? "ne1"
+                            : "pl1"
+                        }
+                      >
+                        {(cur2.d < 0) | (cur2.d == "NaN") ? "" : "+"}
+                        {cur2.d == "NaN"
+                          ? ""
+                          : cur2.d == "Inf"
+                          ? "Inf%"
+                          : `${Number(cur2.d).toFixed(2)}%`}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td>前年差（値）</td>
+                  <td>
+                    {ssg1.def.tmn != value && (
+                      <span
+                        className={
+                          cur2.f < 0 ? "mi1" : cur2.f == 0 ? "ne1" : "pl1"
+                        }
+                      >
+                        {cur2.f < 0 ? "" : "+"}
+                        {cur2 ? Number(cur2.f).toLocaleString() : ""}
+                        {ssg1.def.ut1}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td>前年差（順位）</td>
+                  <td>
+                    {ssg1.def.tmn != value && (
+                      <span
+                        className={
+                          cur2.n * -1 < 0 ? "mi1" : cur2.n == 0 ? "ne1" : "pl1"
+                        }
+                      >
+                        {cur2.n * -1 < 0 ? "" : "+"}
+                        {cur2 ? Number(cur2.n * -1) : ""}位
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Box>
+        </div>
+      );
     }
   }, [value, gid]);
+  const memoizedHtml = ReactDOMServer.renderToStaticMarkup(html2);
+  // useEffect(() => {
+  //   // setHtml1(html2);
+  //   setContent(html2);
+  // }, [value, gid]);
+
   const minmax1 = [ssg1.def.vmn, ssg1.def.vmx];
 
-  const [isMounted, setIsMounted] = useState(false); // Need this for the react-tooltip
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // const [isMounted, setIsMounted] = useState(false); // Need this for the react-tooltip
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
 
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
   const colorScale1 = scaleQuantize().domain(minmax1).range(color1);
   const colorScale2 = scaleQuantize().domain(minmax1).range(color2);
 
@@ -206,7 +206,7 @@ const MapChart = (props) => {
             onClick={() => {
               const ind1 = marks.findIndex((ss) => ss.value == value);
               marks[ind1 - 1] ? setValue(marks[ind1 - 1].value) : null;
-              setContent(html1);
+              // setContent(html2);
             }}
           />{" "}
           <Chip
@@ -216,7 +216,7 @@ const MapChart = (props) => {
             onClick={() => {
               const ind1 = marks.findIndex((ss) => ss.value == value);
               marks[ind1 + 1] ? setValue(marks[ind1 + 1].value) : null;
-              setContent(html1);
+              // setContent(html2);
             }}
           />
           <Box margin="auto" padding="0px 50px">
@@ -314,13 +314,17 @@ const MapChart = (props) => {
                           geography={geo}
                           stroke="#FFF"
                           fill={cur ? colorScale1(cur.v[0]) : "lightgrey"}
+                          data-tooltip-id="map-tooltip"
+                          // data-tooltip-content={geo.id}
+                          // data-tooltip-place="top"
+                          data-tooltip-html={memoizedHtml}
                           onClick={() => {
                             setGid(geo.id);
-                            setContent(html1);
+                            // setContent(html1);
                           }}
                           onMouseEnter={() => {
                             setGid(geo.id);
-                            setContent(html1);
+                            // setContent(html1);
                           }}
                           style={{
                             default: {
@@ -354,19 +358,28 @@ const MapChart = (props) => {
               )}
             </Geographies>
           </ComposableMap>
+          {/* <Tooltip
+            id="map-tooltip"
+            content={content}
+            effect="float"
+            type="light"
+            place="auto"
+          /> */}
           <div id="custom-tooltip-toolbox" className="squaire-toolbox">
             <Box
               sx={{
                 display: { xs: "none", sm: "block" },
               }}
             >
-              {isMounted && (
-                <ReactTooltip effect="float" type="light">
-                  {content}
-                </ReactTooltip>
-              )}
+              <Tooltip
+                id="map-tooltip"
+                // content="hello"
+                // effect="float"
+                // data-tooltip-float={true}
+                // type="light"
+              />
             </Box>
-            <Box sx={{ display: { xs: "block", sm: "none" } }}>{content}</Box>
+            <Box sx={{ display: { xs: "block", sm: "none" } }}>{html2}</Box>
           </div>
         </Box>
       </Box>
