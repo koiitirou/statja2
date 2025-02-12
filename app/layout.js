@@ -51,7 +51,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ja" className={notoSansJP.className}>
-      <GoogleAnalytics />
+      {/* <GoogleAnalytics /> */}
       <body
         style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
         // className={`${geistSans.variable} ${geistMono.variable}`}

@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }) {
-  const { id } = params;
+  const { id } = await params;
   const res = await fetch(`${server}/pr2json2/${id}_ssg.json`);
   const ssg1 = await res.json();
   //   const res1 = await fetch(`${server}/path/pr2_path/pr2_path.json`);
