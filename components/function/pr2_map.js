@@ -320,8 +320,6 @@ const MapChart = (props) => {
                           stroke="#FFF"
                           fill={cur ? colorScale1(cur.v[0]) : "lightgrey"}
                           data-tooltip-id="map-tooltip"
-                          // data-tooltip-content={geo.id}
-                          // data-tooltip-place="top"
                           data-tooltip-html={memoizedHtml}
                           onClick={() => {
                             setGid(geo.id);
@@ -381,7 +379,7 @@ const MapChart = (props) => {
                 // content="hello"
                 // effect="float"
                 // data-tooltip-float={true}
-                // type="light"
+                variant="light"
               />
             </Box>
             <Box sx={{ display: { xs: "block", sm: "none" } }}>{html2}</Box>
