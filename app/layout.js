@@ -53,7 +53,12 @@ export default function RootLayout({ children }) {
     <html lang="ja" className={notoSansJP.className}>
       {/* <GoogleAnalytics /> */}
       <body
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          margin: 0,
+        }}
         // className={`${geistSans.variable} ${geistMono.variable}`}
         // className={notoSansJP.variable}
       >

@@ -14,8 +14,8 @@ const footerLink = [
 const Footer = () => {
   return (
     <footer>
-      <Container
-        component="footer"
+      <Box
+        // component="footer"
         sx={{
           borderTop: "1px solid rgba(0, 0, 0, 0.12)",
         }}
@@ -42,7 +42,7 @@ const Footer = () => {
         <Box textAlign="center" p={{ xs: 1 }}>
           © 2022 統計リアル
         </Box>
-      </Container>
+      </Box>
     </footer>
   );
 };

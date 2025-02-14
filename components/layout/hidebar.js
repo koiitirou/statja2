@@ -353,7 +353,9 @@ export default function HideAppBar(props) {
           [theme.breakpoints.up("md")]: { width: "67%", margin: "auto" },
         }}
       >
+        {/* <Container component="main" sx={{ p: 1 }} maxWidth="md"> */}
         {props.children}
+        {/* </Container> */}
       </Box>
     </Box>
   );

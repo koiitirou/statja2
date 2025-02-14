@@ -4,6 +4,8 @@ import { Box, Typography } from "@mui/material";
 import { useState, useEffect, React, Fragment } from "react";
 import { server } from "components/data/config";
 import Pr2_map from "components/function/pr2_map";
+import Pr2_line from "components/function/pr2_line";
+import Pr2_table from "components/function/pr2_table";
 
 const Content = ({ ssg0, id, thisParams }) => {
   //   console.log(ssg0);
@@ -108,6 +110,14 @@ const Content = ({ ssg0, id, thisParams }) => {
       </>
     );
   };
+  ////////////////
+  const graphList = [
+    { value: "r", label: "順位", unit: "位", rev: true },
+    { value: "v", label: ssg1.def.tl1, unit: unit1, rev: false },
+    { value: "d", label: "前年比", unit: "%", rev: false },
+    { value: "f", label: "前年差", unit: unit1, rev: false },
+    { value: "n", label: "順位差", unit: "位", rev: false },
+  ];
   return (
     <HideBar>
       <Typography variant="h1" component="h1">
@@ -129,6 +139,8 @@ const Content = ({ ssg0, id, thisParams }) => {
         <Html2 />{" "}
       </Typography>
       <Pr2_map ssg1={ssg1} isfetch={isfetch} marks={marks} />
+      <Pr2_line ssg1={ssg1} isfetch={isfetch} graphList={graphList} />
+      <Pr2_table ssg1={ssg1} isfetch={isfetch} marks={marks} />
     </HideBar>
   );
 };
