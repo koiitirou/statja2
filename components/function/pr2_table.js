@@ -47,6 +47,7 @@ const App = (props) => {
   const [sorting, setSorting] = useState([]);
   const [data, setData] = useState(useMemo(() => ssg1.tab[ssg1.def.tmx].data));
   const [globalFilter, setGlobalFilter] = useState("");
+  console.log(data);
   useEffect(() => {
     if (props.isfetch) {
       setData(ssg1.tab[value].data);
@@ -65,6 +66,19 @@ const App = (props) => {
     header: item.Header,
     accessorKey: item.accessor,
     // enableSorting: true,
+    sortingFn: (rowA, rowB, columnId) => {
+      if (index == 2) {
+        return (
+          Number(rowA.getValue(columnId)[0]) -
+          Number(rowB.getValue(columnId)[0])
+        );
+      } else {
+        return (
+          Number(rowA.getValue(columnId)) - Number(rowB.getValue(columnId))
+        );
+      }
+    },
+
     cell: ({ cell }) => {
       const col2Value = cell.getValue(); // ここで一度だけ取得
 
