@@ -23,6 +23,21 @@ import classes from "components/css/prefecture.module.css";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { useVirtualizer } from "@tanstack/react-virtual";
 
+const fuzzyFilter = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = Array.isArray(row.getValue(columnId))
+    ? rankItem(row.getValue(columnId).join(" "), value)
+    : rankItem(row.getValue(columnId), value);
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
+
 const App = (props) => {
   console.log(props);
   const marks = props.marks;
@@ -31,6 +46,7 @@ const App = (props) => {
   const [value, setValue] = useState(useMemo(() => ssg1.def.tmx));
   const [sorting, setSorting] = useState([]);
   const [data, setData] = useState(useMemo(() => ssg1.tab[ssg1.def.tmx].data));
+  const [globalFilter, setGlobalFilter] = useState("");
   useEffect(() => {
     if (props.isfetch) {
       setData(ssg1.tab[value].data);
@@ -48,6 +64,7 @@ const App = (props) => {
   const columns = column0.map((item, index) => ({
     header: item.Header,
     accessorKey: item.accessor,
+    // enableSorting: true,
     cell: ({ cell }) => {
       const col2Value = cell.getValue(); // ここで一度だけ取得
 
@@ -152,10 +169,19 @@ const App = (props) => {
     columns,
     state: {
       sorting,
+      globalFilter,
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    // globalFilterFn: "text",
+    globalFilterFn: fuzzyFilter,
+    onGlobalFilterChange: setGlobalFilter,
+    getColumnCanGlobalFilter: (col) => {
+      return col.columnDef.enableGlobalFilter ?? true;
+    },
+    // enableGlobalFilter: true,
   });
 
   const { rows } = table.getRowModel();
@@ -222,16 +248,31 @@ const App = (props) => {
         </Box>
       </Box>
       <Box className={classes.retable}>
+        <div>
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            placeholder="大阪..."
+          />
+        </div>
         <table className={[classes.table1, classes.shohou1].join(" ")}>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
+                  <th
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()} // ← クリックでソート
+                    style={{ cursor: "pointer" }} // ← カーソルを変更（UX向上）
+                  >
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
                     )}
+                    {{
+                      asc: " ▲",
+                      desc: " ▼",
+                    }[header.column.getIsSorted()] ?? null}
                   </th>
                 ))}
               </tr>
@@ -254,3 +295,32 @@ const App = (props) => {
   );
 };
 export default memo(App);
+
+// A debounced input react component
+function DebouncedInput({
+  value: initialValue,
+  onChange,
+  debounce = 500,
+  ...props
+}) {
+  const [value, setValue] = useState(initialValue);
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value);
+    }, debounce);
+
+    return () => clearTimeout(timeout);
+  }, [value]);
+
+  return (
+    <input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+}
