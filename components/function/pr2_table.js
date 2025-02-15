@@ -43,30 +43,109 @@ const App = (props) => {
   };
   const column0 = ssg1.tab[ssg1.def.tmx].columns;
 
+  column0[4] = { Header: "前年差", accessor: "f" };
+  column0[5] = { Header: "順位差", accessor: "n" };
   const columns = column0.map((item, index) => ({
     header: item.Header,
     accessorKey: item.accessor,
-    ...(index === 1
-      ? {
-          cell: ({ cell }) => {
-            const col2Value = cell.getValue();
-            console.log(col2Value);
-            if (Array.isArray(col2Value)) {
-              return (
-                <ul>
-                  {col2Value.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              );
-            } else {
-              return col2Value;
+    cell: ({ cell }) => {
+      const col2Value = cell.getValue(); // ここで一度だけ取得
+
+      if (index === 1) {
+        return (
+          <Fragment>
+            <img
+              src={"/img/logo/" + col2Value[1] + ".png"}
+              width={16}
+              height={16}
+              alt={col2Value[0]}
+              className={classes.img1}
+            />
+            <Link
+              prefetch={false}
+              href={"/prefecture/info/" + col2Value[1] + "/category/"}
+            >
+              {col2Value[0]}
+            </Link>
+          </Fragment>
+        );
+      } else if (index === 2) {
+        return (
+          <div className={classes.p1}>
+            <div className={classes.p2}>{col2Value[0].toLocaleString()}</div>
+            <div className={classes.p4}>
+              <div
+                className={classes.p3}
+                style={{
+                  width: col2Value[1] + "%",
+                  backgroundColor: ssg1.ref[col2Value[2]].color,
+                }}
+              ></div>
+            </div>
+          </div>
+        );
+      } else if (index === 3) {
+        return (
+          <span
+            className={
+              classes[
+                Number(col2Value) < 0
+                  ? "mi1"
+                  : Number(col2Value) == 0
+                  ? "ne1"
+                  : "pl1"
+              ]
             }
-          },
-        }
-      : {}), //  <--- The key is this empty object for the else case
+          >
+            {Number(col2Value) < 0 ? "" : "+"}
+            {Number(col2Value).toFixed(2)}%
+          </span>
+        );
+      } else if (index === 4) {
+        return value == Number(ssg1.def.tmn) ? (
+          ""
+        ) : (
+          <span
+            className={
+              classes[
+                Number(col2Value) < 0
+                  ? "mi1"
+                  : Number(col2Value) == 0
+                  ? "ne1"
+                  : "pl1"
+              ]
+            }
+          >
+            {Number(col2Value) < 0 ? "" : "+"}
+            {Number(col2Value).toLocaleString()}
+          </span>
+        );
+      } else if (index === 5) {
+        return value == Number(ssg1.def.tmn) ? (
+          ""
+        ) : Number(col2Value) == 0 ? (
+          ""
+        ) : (
+          <span
+            className={
+              classes[
+                Number(col2Value * -1) < 0
+                  ? "mi1"
+                  : Number(col2Value) == 0
+                  ? "ne1"
+                  : "pl1"
+              ]
+            }
+          >
+            {Number(col2Value * -1) < 0 ? "" : "+"}
+            {Number(col2Value * -1)}
+          </span>
+        );
+      } else {
+        return col2Value; // それ以外はそのまま
+      }
+    },
   }));
-  console.log(columns);
 
   const table = useReactTable({
     data,
@@ -143,7 +222,7 @@ const App = (props) => {
         </Box>
       </Box>
       <Box className={classes.retable}>
-        <table>
+        <table className={[classes.table1, classes.shohou1].join(" ")}>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
