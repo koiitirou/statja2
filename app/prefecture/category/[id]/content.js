@@ -6,8 +6,17 @@ import { server } from "components/data/config";
 import Pr2_map from "components/function/pr2_map";
 import Pr2_line from "components/function/pr2_line";
 import Pr2_table from "components/function/pr2_table";
+import Link from "next/link";
 
-const Content = ({ ssg0, id, thisParams }) => {
+const Content = ({
+  ssg0,
+  id,
+  thisParams,
+  thisRef0,
+  thisRef1,
+  thisRef2,
+  thisRelated,
+}) => {
   //   console.log(ssg0);
   ///marks
   const [ssg1, setSsg1] = useState(ssg0);
@@ -141,7 +150,105 @@ const Content = ({ ssg0, id, thisParams }) => {
       <Pr2_map ssg1={ssg1} isfetch={isfetch} marks={marks} />
       <Pr2_line ssg1={ssg1} isfetch={isfetch} graphList={graphList} />
       <Pr2_table ssg1={ssg1} isfetch={isfetch} marks={marks} />
+      <Typography
+        variant="body2"
+        fontStyle="italic"
+        color="dimgrey"
+        align="right"
+        display="block"
+      >
+        出典：「政府統計の総合窓口(e-Stat)」
+      </Typography>
+      <Related
+        thisRef0={thisRef0}
+        thisRef1={thisRef1}
+        thisRelated={thisRelated}
+        thisRef2={thisRef2}
+      />
     </HideBar>
   );
 };
 export default Content;
+
+const Related = ({ thisRef1, thisRelated, thisRef2, thisRef0 }) => {
+  const yasaiRef0 = [
+    ["FR", { params: { lnk: "fruit", nam: "果物" } }],
+    ["VE", { params: { lnk: "vegetable", nam: "野菜" } }],
+  ];
+  const mergeRef0 = thisRef0.concat(yasaiRef0);
+
+  return (
+    <>
+      <Typography variant="h2">{thisRef2.nm2}に関する項目</Typography>
+      <Box
+        pt={{ xs: 1 }}
+        textAlign="center"
+        display="flex"
+        flexWrap="wrap"
+        justifyContent="left"
+      >
+        {thisRelated.map((v, i) => (
+          <Link
+            key={"l" + i}
+            href={"/prefecture/category/" + v.params.id}
+            prefetch={false}
+            style={{
+              margin: "0 10px",
+
+              textDecoration: "none",
+              color: "blue",
+            }}
+          >
+            {v.params.nm}
+          </Link>
+        ))}
+      </Box>
+      <Typography variant="h2">
+        {thisRef1.params.nam}に関するカテゴリー
+      </Typography>
+      <Box
+        pt={{ xs: 1 }}
+        textAlign="center"
+        display="flex"
+        flexWrap="wrap"
+        justifyContent="left"
+      >
+        {Object.entries(thisRef1.params.c2s).map((v, i) => {
+          return (
+            <Link
+              key={"m" + i}
+              href={"/prefecture/" + thisRef1.params.lnk + "#grid" + i}
+              prefetch={false}
+              style={{
+                margin: "0 10px",
+
+                textDecoration: "none",
+                color: "blue",
+              }}
+            >
+              {v[1].nm2}
+            </Link>
+          );
+        })}
+      </Box>
+      <Typography variant="h2">大カテゴリー</Typography>
+      {mergeRef0.map((v, i) => {
+        return (
+          <Link
+            key={"n" + i}
+            href={"/prefecture/" + v[1].params.lnk}
+            prefetch={false}
+            style={{
+              margin: "0 10px",
+
+              textDecoration: "none",
+              color: "blue",
+            }}
+          >
+            {v[1].params.nam}
+          </Link>
+        );
+      })}
+    </>
+  );
+};

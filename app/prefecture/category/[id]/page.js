@@ -25,5 +25,15 @@ export default async function Page({ params }) {
   const thisRelated = thisRef2.url.map((v) => {
     return pr2_path.path.find((s) => s.params.id == v);
   });
-  return <Content ssg0={ssg1} id={id} thisParams={thisParams} />;
+  return (
+    <Content
+      ssg0={ssg1}
+      id={id}
+      thisParams={thisParams}
+      thisRef0={thisRef0}
+      thisRef1={thisRef1}
+      thisRelated={thisRelated}
+      thisRef2={thisRef2}
+    />
+  );
 }
