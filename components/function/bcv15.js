@@ -29,7 +29,6 @@ const Breadcrumb = ({
   //   const getModeIcon = () => {
   //     return "ri-arrow-right-s-fill";
   //   };
-  console.log(rep1);
   return (
     <>
       {/* <Tooltip
