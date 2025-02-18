@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 const WindowedSelect = dynamic(() => import("react-windowed-select"), {
   ssr: false,
 });
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SearchIcon from "@mui/icons-material/Search";
 import { Typography, Box, Grid } from "@mui/material";
 import rsearch from "components/css/rsearch.module.css";
@@ -43,19 +43,6 @@ const App = () => {
   const [input, setInput] = useState("");
   const [inputSave, setSave] = useState("");
   const [query0, setQuery0] = useState();
-
-  console.log(router);
-  const searchParams = useSearchParams();
-  const thisQuery = searchParams.get("i");
-  const pathname = usePathname();
-  console.log(searchParams);
-  console.log(pathname);
-  console.log(searchParams.get("i"));
-  console.log(`${pathname}?${searchParams}`);
-  // useEffect(() => {
-  //   setSave(thisQuery);
-  //   setQuery0(thisQuery);
-  // }, [thisQuery]);
 
   return (
     <>
@@ -120,7 +107,6 @@ const App = () => {
               }}
               onClick={() => {
                 setQuery0(inputSave);
-                // router.push(`${pathname}?${searchParams}`);
               }}
             ></SearchIcon>
           </Grid>
