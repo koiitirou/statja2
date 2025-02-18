@@ -8,6 +8,7 @@ import Pr2_line from "components/function/pr2_line";
 import Pr2_table from "components/function/pr2_table";
 import Link from "next/link";
 import NextBreadcrumbs from "components/function/bcv15";
+import Pr2_windowed from "components/function/pr2_windowed";
 
 const Content = ({
   ssg0,
@@ -140,6 +141,7 @@ const Content = ({
         // container="flex py-5 bg-gradient-to-r from-amber-200 to-green-500"
         // listClasses="hover:underline font-bold text-stone-500"
       />
+      <Pr2_windowed />
       <Typography variant="h1" component="h1">
         {title1}
       </Typography>
