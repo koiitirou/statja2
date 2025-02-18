@@ -24,7 +24,6 @@ import { rankItem } from "@tanstack/match-sorter-utils";
 import { useVirtualizer } from "@tanstack/react-virtual";
 
 const App = (props) => {
-  console.log(props);
   const marks = props.marks;
   const ssg1 = props.ssg1;
   var init1 = [];
@@ -42,7 +41,6 @@ const App = (props) => {
     header: item.Header,
     accessorKey: item.accessor,
   }));
-  console.log(columns);
 
   const table = useReactTable({
     data,

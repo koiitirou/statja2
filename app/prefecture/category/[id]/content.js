@@ -7,6 +7,7 @@ import Pr2_map from "components/function/pr2_map";
 import Pr2_line from "components/function/pr2_line";
 import Pr2_table from "components/function/pr2_table";
 import Link from "next/link";
+import NextBreadcrumbs from "components/function/bcv15";
 
 const Content = ({
   ssg0,
@@ -17,7 +18,11 @@ const Content = ({
   thisRef2,
   thisRelated,
 }) => {
-  //   console.log(ssg0);
+  const rep1 = {
+    prefecture: "都道府県ランキング",
+    category: "カテゴリー",
+    [thisParams.params.id]: thisParams.params.nm,
+  };
   ///marks
   const [ssg1, setSsg1] = useState(ssg0);
   const [isfetch, setIsfetch] = useState(false);
@@ -129,6 +134,12 @@ const Content = ({
   ];
   return (
     <HideBar>
+      <NextBreadcrumbs
+        rep1={rep1}
+        // activeClasses="text-stone-900"
+        // container="flex py-5 bg-gradient-to-r from-amber-200 to-green-500"
+        // listClasses="hover:underline font-bold text-stone-500"
+      />
       <Typography variant="h1" component="h1">
         {title1}
       </Typography>

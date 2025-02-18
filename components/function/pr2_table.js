@@ -39,7 +39,6 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 };
 
 const App = (props) => {
-  console.log(props);
   const marks = props.marks;
   const ssg1 = props.ssg1;
   var init1 = [];
@@ -47,7 +46,7 @@ const App = (props) => {
   const [sorting, setSorting] = useState([]);
   const [data, setData] = useState(useMemo(() => ssg1.tab[ssg1.def.tmx].data));
   const [globalFilter, setGlobalFilter] = useState("");
-  console.log(data);
+
   useEffect(() => {
     if (props.isfetch) {
       setData(ssg1.tab[value].data);
