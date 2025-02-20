@@ -1,49 +1,42 @@
 import { components, createFilter } from "react-windowed-select";
-import React, { useState, useEffect, memo } from "react";
 import dynamic from "next/dynamic";
 const WindowedSelect = dynamic(() => import("react-windowed-select"), {
   ssr: false,
 });
+import React, { useState, useEffect, memo } from "react";
 import { useRouter } from "next/navigation";
 import SearchIcon from "@mui/icons-material/Search";
-import { Typography, Box, Grid } from "@mui/material";
+import { Typography, Box } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import rsearch from "components/css/rsearch.module.css";
 import Link from "next/link";
 import pr2_path from "components/pr2_path/pr2_path.json";
 import yasai_path from "components/pr2_path/yasai_path.json";
 
-var options = [];
-
-pr2_path.path.map((s, i) => {
-  var child1 = {};
-  child1["value"] = s.params.id;
-  child1["label"] = s.params.nm;
-  child1["c"] = s.params.c1;
-  child1["l"] = "category";
-  options.push(child1);
-});
-yasai_path.path.map((s, i) => {
-  var child1 = {};
-  child1["value"] = s.params.yasai;
-  child1["label"] = s.params.nm;
-  child1["c"] = s.params.c1;
-  child1["l"] = "vegetable";
-  options.push(child1);
-});
-
-const customFilter = createFilter({ ignoreAccents: false });
-const customComponents = {
-  ClearIndicator: (props) => (
-    <components.ClearIndicator {...props}>clear</components.ClearIndicator>
-  ),
-};
-
 const App = () => {
+  var options = [];
+
+  pr2_path.path.map((s, i) => {
+    var child1 = {};
+    child1["value"] = s.params.id;
+    child1["label"] = s.params.nm;
+    child1["c"] = s.params.c1;
+    child1["l"] = "category";
+    options.push(child1);
+  });
+  yasai_path.path.map((s, i) => {
+    var child1 = {};
+    child1["value"] = s.params.yasai;
+    child1["label"] = s.params.nm;
+    child1["c"] = s.params.c1;
+    child1["l"] = "vegetable";
+    options.push(child1);
+  });
+
   const router = useRouter();
   const [input, setInput] = useState("");
   const [inputSave, setSave] = useState("");
   const [query0, setQuery0] = useState();
-
   return (
     <>
       <Box
@@ -60,8 +53,8 @@ const App = () => {
         <Typography variant="caption" paddingLeft="10px">
           ランキングの項目を検索する
         </Typography>
-        <Grid container rowspacing={1} columns={12} columnSpacing={1}>
-          <Grid item xs={10}>
+        <Grid container rowspacing={1} columnSpacing={1}>
+          <Grid size={10}>
             <WindowedSelect
               className={rsearch.select1}
               placeholder={
@@ -77,23 +70,15 @@ const App = () => {
               inputValue={input}
               onInputChange={setInput}
               onChange={(e) => {
-                // window.location.assign(`/prefecture/${e.l}/${e.value}`);
                 router.push(`/prefecture/${e.l}/${e.value}`);
               }}
               onMenuClose={() => setSave(input)}
-              onFocus={() => {
-                setInput(inputSave);
-                setSave("");
-              }}
-              blurInputOnSelect
-              components={customComponents}
-              filterOption={customFilter}
               options={options}
               id="selectbox"
               instanceId="selectbox"
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid size={2}>
             <SearchIcon
               sx={{
                 borderRadius: "4px",
@@ -126,7 +111,6 @@ const Result1 = memo(function Foo(props) {
   useEffect(() => {
     setRes0(options.filter((s) => s.label.includes(query0)));
   }, [query0]);
-  //   return 'aa';
 
   const Highlighted = ({ text = "", highlight = "" }) => {
     if (!highlight.trim()) {

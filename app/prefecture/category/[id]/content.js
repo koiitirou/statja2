@@ -9,6 +9,7 @@ import Pr2_table from "components/function/pr2_table";
 import Link from "next/link";
 import NextBreadcrumbs from "components/function/bcv15";
 import Pr2_windowed from "components/function/pr2_windowed";
+import pr2_path from "components/pr2_path/pr2_path.json";
 
 const Content = ({
   ssg0,
@@ -18,7 +19,10 @@ const Content = ({
   thisRef1,
   thisRef2,
   thisRelated,
+  title1,
+  description1,
 }) => {
+  console.log(ssg0);
   const rep1 = {
     prefecture: "都道府県ランキング",
     category: "カテゴリー",
@@ -58,14 +62,14 @@ const Content = ({
   }
   /////Description
   const unit1 = ssg1.def.ut1;
-  const title1 = `${
-    ssg1.def.tl1 +
-    "の都道府県ランキング【" +
-    ssg1.def.tmn +
-    "〜" +
-    ssg1.def.tmx +
-    "】"
-  }`;
+  // const title1 = `${
+  //   ssg1.def.tl1 +
+  //   "の都道府県ランキング【" +
+  //   ssg1.def.tmn +
+  //   "〜" +
+  //   ssg1.def.tmx +
+  //   "】"
+  // }`;
   const dd1_rnk = ssg1.def.rnk.slice(-3);
   const dd1_pre = ssg1.def.pre.slice(-3);
   const dd1_val = ssg1.def.val.slice(-3);
@@ -76,7 +80,7 @@ const Content = ({
       <>
         {ssg1.def.rnk[0]}位は{ssg1.def.pre[0]}で
         {ssg1.def.val[0].toLocaleString()}
-        {ssg1.def.unit2} (
+        {ssg1.def.ut1} (
         <span className={ssg1.def.prc[0]}>
           {ssg1.def.lpr[0] >= 0 ? "+" : ""}
           {ssg1.def.lpr[0]}%
@@ -84,14 +88,14 @@ const Content = ({
         )、
         {ssg1.def.rnk[1]}位は{ssg1.def.pre[1]}で
         {ssg1.def.val[1].toLocaleString()}
-        {ssg1.def.unit2} (
+        {ssg1.def.ut1} (
         <span className={ssg1.def.prc[1]}>
           {ssg1.def.lpr[1] >= 0 ? "+" : ""}
           {ssg1.def.lpr[1]}%
         </span>
         )、{ssg1.def.rnk[2]}位は{ssg1.def.pre[2]}で
         {ssg1.def.val[2].toLocaleString()}
-        {ssg1.def.unit2} (
+        {ssg1.def.ut1} (
         <span className={ssg1.def.prc[2]}>
           {ssg1.def.lpr[2] >= 0 ? "+" : ""}
           {ssg1.def.lpr[2]}%
@@ -104,19 +108,19 @@ const Content = ({
     return (
       <>
         {dd1_rnk[2]}位は{dd1_pre[2]}で{dd1_val[2].toLocaleString()}
-        {ssg1.def.unit2} (
+        {ssg1.def.ut1} (
         <span className={dd1_prc[2]}>
           {dd1_lpr[2] >= 0 ? "+" : ""}
           {dd1_lpr[2]}%
         </span>
         )、 {dd1_rnk[1]}位は{dd1_pre[1]}で{dd1_val[1].toLocaleString()}
-        {ssg1.def.unit2} (
+        {ssg1.def.ut1} (
         <span className={dd1_prc[1]}>
           {dd1_lpr[1] >= 0 ? "+" : ""}
           {dd1_lpr[1]}%
         </span>
         )、 {dd1_rnk[0]}位は{dd1_pre[0]}で{dd1_val[0].toLocaleString()}
-        {ssg1.def.unit2} (
+        {ssg1.def.ut1} (
         <span className={dd1_prc[0]}>
           {dd1_lpr[0] >= 0 ? "+" : ""}
           {dd1_lpr[0]}%

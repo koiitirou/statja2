@@ -23,9 +23,9 @@ export const metadata = {
   },
   description: description,
   openGraph: {
-    title: siteName,
+    title: `%s｜${siteName}`,
     description: description,
-    url: url,
+    // url: url,
     siteName: siteName,
     locale: "ja_JP",
     type: "website",
