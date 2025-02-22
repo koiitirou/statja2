@@ -102,7 +102,6 @@ const Link2 = (props) => {
 
 function SubCategory({ c2s, ref1, json1, ref2 }, i2) {
   c2s.url = Array.isArray(c2s.url) ? c2s.url : [c2s.url];
-  console.log(ref1);
   return (
     <React.Fragment key={"d" + i2}>
       <Grid size={{ xs: 6, sm: 5 }}>
