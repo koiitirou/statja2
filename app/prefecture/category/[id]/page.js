@@ -2,6 +2,8 @@ import Content from "./content";
 import pr2_path from "components/pr2_path/pr2_path.json";
 import { server } from "components/data/config";
 
+export const dynamicParams = false;
+
 async function fetchAndProcessData(id) {
   const res = await fetch(`${server}/pr2json2/${id}_ssg.json`);
   const ssg1 = await res.json();

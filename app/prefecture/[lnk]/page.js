@@ -4,6 +4,8 @@ import yasai_path from "components/pr2_path/yasai_path.json";
 import { server } from "components/data/config";
 import ref2 from "components/data/prefecture_list2.json";
 
+export const dynamicParams = false;
+
 var array4 = [];
 Object.keys(pr2_path.refs).forEach((v, i) => {
   array4.push(pr2_path.refs[v]);
