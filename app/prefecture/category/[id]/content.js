@@ -9,7 +9,6 @@ import Pr2_table from "components/function/pr2_table";
 import Link from "next/link";
 import NextBreadcrumbs from "components/function/bcv15";
 import Pr2_windowed from "components/function/pr2_windowed";
-import pr2_path from "components/pr2_path/pr2_path.json";
 
 const Content = ({
   ssg0,
@@ -22,7 +21,6 @@ const Content = ({
   title1,
   description1,
 }) => {
-  console.log(ssg0);
   const rep1 = {
     prefecture: "都道府県ランキング",
     category: "カテゴリー",

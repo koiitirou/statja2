@@ -1,7 +1,4 @@
-// React Imports
-import { useState } from "react";
-import React, { ReactNode } from "react";
-
+import React from "react";
 import { usePathname } from "next/navigation";
 
 // MUI Imports
@@ -21,7 +18,7 @@ const Breadcrumb = ({
 }) => {
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
-
+  const lastIndex = pathNames.length - 1; // 最後の要素のインデックス
   // States
   //   const [open, setOpen] = useState(false);
   //   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -62,18 +59,35 @@ const Breadcrumb = ({
           //     ? link[0].toUpperCase() + link.slice(1)
           //     : link;
           let itemLink = rep1 && rep1[link] ? rep1[link] : link; // 置換ロジック
-          return (
-            <Typography key={index}>
-              <Link
-                underline="hover"
-                href={href}
-                // className={itemClasses}
-                color="rgba(0, 0, 0, 0.6);"
-              >
+          if (index === lastIndex) {
+            // 最後の要素の場合、Linkコンポーネントを使わない
+            return (
+              <Typography key={index} color="black">
                 {itemLink}
-              </Link>
-            </Typography>
-          );
+              </Typography>
+            );
+          } else {
+            // 最後の要素でない場合、Linkコンポーネントを使う
+            return (
+              <Typography key={index}>
+                <Link href={href} underline="hover" color="rgba(0, 0, 0, 0.6);">
+                  {itemLink}
+                </Link>
+              </Typography>
+            );
+          }
+          // return (
+          //   <Typography key={index}>
+          //     <Link
+          //       underline="hover"
+          //       href={href}
+          //       // className={itemClasses}
+          //       color="rgba(0, 0, 0, 0.6);"
+          //     >
+          //       {itemLink}
+          //     </Link>
+          //   </Typography>
+          // );
         })}
       </Breadcrumbs>
     </>
