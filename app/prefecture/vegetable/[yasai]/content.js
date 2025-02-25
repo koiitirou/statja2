@@ -37,6 +37,7 @@ const Content = ({ ssg0, title, description, yasai }) => {
   const rep1 = {
     prefecture: "都道府県ランキング",
     vegetable: "野菜・果物",
+    [yasai]: ssg1.def.tl1,
   };
   ///
   const graphList = [
@@ -84,6 +85,15 @@ const Content = ({ ssg0, title, description, yasai }) => {
         ref1={ref1}
       />
       <Yasai_table ssg1={ssg1} isfetch={isfetch} marks={marks} ref1={ref1} />
+      <Typography
+        variant="body2"
+        fontStyle="italic"
+        color="dimgrey"
+        align="right"
+        display="block"
+      >
+        出典：「政府統計の総合窓口(e-Stat)」
+      </Typography>
     </HideBar>
   );
 };
