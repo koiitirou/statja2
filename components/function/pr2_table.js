@@ -1,27 +1,15 @@
-import {
-  memo,
-  useMemo,
-  Fragment,
-  useState,
-  useEffect,
-  React,
-  useRef,
-} from "react";
+import { memo, useMemo, Fragment, useState, useEffect, React } from "react";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
   getSortedRowModel,
   getFilteredRowModel,
-  getFacetedRowModel,
-  getColumnCanGlobalFilter,
 } from "@tanstack/react-table";
 import Link from "next/link";
-import Image from "next/image";
 import { Box, Typography, Slider, Chip } from "@mui/material";
 import classes from "components/css/prefecture.module.css";
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { useVirtualizer } from "@tanstack/react-virtual";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -196,8 +184,6 @@ const App = (props) => {
     },
     // enableGlobalFilter: true,
   });
-
-  const { rows } = table.getRowModel();
 
   // const parentRef = useRef(null);
 
