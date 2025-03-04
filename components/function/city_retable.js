@@ -92,11 +92,12 @@ const App = ({ ssg1, did1, marks, column0, graphList, time_list2 }) => {
   };
   ////////////
   /////
-  const [chartData, setChartData] = useState([]);
+  // const [chartData, setChartData] = useState([]);
   const [did_list1, setDid] = useState([]);
   const [dis_list1, setDnm] = useState([]);
 
   ///////
+
   const column1 = column0.map((item, index) => ({
     header: item.Header,
     accessorKey: item.accessor,
@@ -260,40 +261,36 @@ const App = ({ ssg1, did1, marks, column0, graphList, time_list2 }) => {
   }, [check_length, ydata, rowSelection, data]);
   /////////////
 
-  useEffect(() => {
+  const chartData = useMemo(() => {
     if (ydata && did_list1 != undefined) {
-      var child1 = [];
+      const child1 = [];
       time_list2.forEach((v0, i0) => {
-        var child2 = {};
-        child2["year"] = v0;
+        const child2 = { year: v0 };
         did_list1.forEach((v1, i1) => {
-          var th_categories = ydata.tab[v0].data.find(
-            (s0) => s0.s[0] == did_list1[i1]
+          const th_categories = ydata.tab[v0].data.find(
+            (s0) => s0.s[0] === did_list1[i1]
           );
-          var th_categories_base = ydata.tab[
+          const th_categories_base = ydata.tab[
             time_list2[time_list2.length - 1]
-          ].data.find((s0) => s0.s[0] == did_list1[i1]);
-
-          if (th_categories && th_categories_base != undefined) {
-            if (th_categories[graph.value] != "") {
-              if (Array.isArray(th_categories[graph.value])) {
-                child2[th_categories_base.s[1]] = Number(
-                  th_categories[graph.value][0]
-                );
-              } else {
-                child2[th_categories_base.s[1]] = Number(
-                  th_categories[graph.value]
-                );
-              }
-            }
+          ].data.find((s0) => s0.s[0] === did_list1[i1]);
+          if (
+            th_categories &&
+            th_categories_base &&
+            th_categories[graph.value] !== ""
+          ) {
+            child2[th_categories_base.s[1]] = Array.isArray(
+              th_categories[graph.value]
+            )
+              ? Number(th_categories[graph.value][0])
+              : Number(th_categories[graph.value]);
           }
         });
         child1.push(child2);
       });
-
-      setChartData(child1);
+      return child1;
     }
-  }, [did_list1, graph]);
+    return [];
+  }, [did_list1, graph, ydata, time_list2]);
 
   return (
     <Box className={classes.retable}>
@@ -451,7 +448,7 @@ const App = ({ ssg1, did1, marks, column0, graphList, time_list2 }) => {
                 table.setPageSize(Number(e.target.value));
               }}
             >
-              {[100, 500, 1000].map((pageSize) => (
+              {[100, 500, 2000].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>

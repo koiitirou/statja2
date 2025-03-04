@@ -6,7 +6,6 @@ import Search_country from "components/function/search_country";
 import Pyramid2 from "components/function/Pyramid2";
 
 const Content = ({ iso2, res2, res3, title, description, con_name }) => {
-  console.log(iso2);
   const rep1 = { pyramid: "人口ピラミッド", [iso2]: con_name };
   return (
     <HideBar>
