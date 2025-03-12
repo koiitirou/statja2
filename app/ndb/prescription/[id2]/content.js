@@ -30,7 +30,7 @@ const Content = ({ title, description, ssg1 }) => {
         {ssg1.dat[0].val.pf}
         {ssg1.def.unt}でした。
       </Typography>
-      <Pyramid2 res2={ssg1} con_name={con_name} />
+      {/* <Pyramid2 res2={ssg1} con_name={con_name} /> */}
     </HideBar>
   );
 };
