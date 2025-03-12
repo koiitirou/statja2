@@ -1,6 +1,6 @@
 "use client";
 
-import HideBar from "components/layout/hidebar";
+// import HideBar from "components/layout/hidebar";
 // import NextBreadcrumbs from "components/function/bcv15";
 // import { Typography, Box } from "@mui/material";
 // import Windowed from "components/function/prescription_windowed";
@@ -17,7 +17,7 @@ const Content = () =>
   {
     // const con_name = ssg1.def.dn2;
     return (
-      <HideBar>
+      <>
         aa
         {/* <NextBreadcrumbs rep1={rep1} />
       <Windowed />
@@ -35,7 +35,7 @@ const Content = () =>
         {ssg1.def.unt}でした。
       </Typography>
       <Pyramid2 res2={ssg1} con_name={con_name} /> */}
-      </HideBar>
+      </>
     );
   };
 
