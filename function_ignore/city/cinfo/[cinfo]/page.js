@@ -8,7 +8,7 @@ var array4 = [];
 Object.keys(cit_path.pref).forEach((v, i) => {
   array4.push({ params: { cinfo: v } });
 });
-
+const res3 = array4.map((v) => v.params);
 async function fetchAndProcessData(cinfo) {
   const res = await fetch(`${server}/citinf2/${cinfo}.json`);
   const ssg1 = await res.json();
@@ -23,7 +23,6 @@ function generateTitleAndDescription(cinfo) {
 }
 
 export function generateStaticParams() {
-  const res3 = array4.map((v) => v.params);
   return res3;
 }
 

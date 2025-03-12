@@ -5,9 +5,9 @@ import { server } from "components/data/config";
 export const dynamicParams = false;
 
 const array4 = cit_path.path;
+const res3 = array4.map((v) => v.params);
 
 export async function generateStaticParams() {
-  const res3 = array4.map((v) => v.params);
   return res3;
 }
 

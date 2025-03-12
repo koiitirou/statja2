@@ -31,9 +31,9 @@ function generateTitleAndDescription(ssg1) {
 }
 
 const array4 = yasai_path.path;
+const res3 = array4.map((v) => v.params);
 
 export async function generateStaticParams() {
-  const res3 = array4.map((v) => v.params);
   return res3;
 }
 

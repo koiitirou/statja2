@@ -48,8 +48,8 @@ function generateTitleAndDescription(th_res, th_prefec) {
 }
 
 /////////
+const res3 = array6.map((v) => v.params);
 export async function generateStaticParams() {
-  const res3 = array6.map((v) => v.params);
   return res3;
 }
 

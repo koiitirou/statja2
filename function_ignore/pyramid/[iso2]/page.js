@@ -32,8 +32,8 @@ function generateTitleAndDescription(iso2, res2) {
   return { title, description };
 }
 
+const res3 = pop_path.map((v) => v.params);
 export function generateStaticParams() {
-  const res3 = pop_path.map((v) => v.params);
   return res3;
 }
 

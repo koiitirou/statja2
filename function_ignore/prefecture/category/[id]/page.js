@@ -29,8 +29,8 @@ function generateTitleAndDescription(ssg1) {
 }
 
 ///
+const res3 = pr2_path.path.map((v) => v.params);
 export async function generateStaticParams() {
-  const res3 = pr2_path.path.map((v) => v.params);
   return res3;
 }
 

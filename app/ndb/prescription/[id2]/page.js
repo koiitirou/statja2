@@ -1,13 +1,14 @@
 import Content from "./content";
-import pre_path0 from "components/data/path_ndb/sum_prescription_path.json";
+// import pre_path0 from "components/data/path_ndb/sum_prescription_path.json";
+import pre_path0_simple from "components/data/path_ndb/sum_prescription_path_simple.json";
 // import { server } from "components/data/config";
 
 export const dynamicParams = false;
-const pre_path = pre_path0.path;
-const res3 = pre_path.map((v) => v.params);
+// const pre_path = pre_path0.path;
+// const res3 = pre_path.map((v) => v.params);
 
 export async function generateStaticParams() {
-  return res3;
+  return pre_path0_simple;
 }
 
 // export async function generateStaticParams() {

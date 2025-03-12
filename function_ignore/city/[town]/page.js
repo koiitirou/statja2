@@ -7,6 +7,7 @@ var array4 = [];
 Object.keys(cit_path.refs).forEach((v, i) => {
   array4.push(cit_path.refs[v]);
 });
+const res3 = array4.map((v) => v.params);
 
 export const dynamicParams = false;
 
@@ -26,7 +27,6 @@ function generateTitleAndDescription(town) {
 
 /////////
 export async function generateStaticParams() {
-  const res3 = array4.map((v) => v.params);
   return res3;
 }
 

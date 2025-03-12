@@ -15,6 +15,8 @@ Object.keys(yasai_path.refs).forEach((v, i) => {
   array4.push(yasai_path.refs[v]);
 });
 
+const res3 = array4.map((v) => v.params);
+
 async function fetchAndProcessData(lnk) {
   const res = await fetch(`${server}/pr2cur/${lnk}.json`);
   const ssg1 = await res.json();
@@ -31,7 +33,6 @@ function generateTitleAndDescription(lnk) {
 }
 
 export function generateStaticParams() {
-  const res3 = array4.map((v) => v.params);
   return res3;
 }
 
