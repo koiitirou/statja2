@@ -1,7 +1,7 @@
 import Content from "./content";
 // import pre_path0 from "components/data/path_ndb/sum_prescription_path.json";
 import pre_path0_simple from "components/data/path_ndb/sum_prescription_path_simple.json";
-// import { server } from "components/data/config";
+import { server } from "components/data/config";
 
 export const dynamicParams = false;
 // const pre_path = pre_path0.path;
