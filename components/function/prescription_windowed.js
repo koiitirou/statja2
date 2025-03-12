@@ -1,4 +1,3 @@
-import { components, createFilter } from "react-windowed-select";
 import React, { useState, useEffect, memo, Fragment } from "react";
 import dynamic from "next/dynamic";
 const WindowedSelect = dynamic(() => import("react-windowed-select"), {

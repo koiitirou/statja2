@@ -18,7 +18,8 @@ import {
 } from "recharts";
 import ReactDOMServer from "react-dom/server";
 import classes from "components/css/retable.module.css";
-import { Box, Typography, Chip, Grid } from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 //import e0 from 'public/comp/data/pop/y5out/AD.json';
 import Slider from "@mui/material/Slider";
 import { useState, useEffect, useMemo } from "react";
@@ -59,13 +60,15 @@ const color2 = [
 ];
 
 const Pyramid2 = (props) => {
+  const [isMounted, setIsMounted] = useState(false); // Need this for the react-tooltip
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const con_name = props.con_name;
   const res2 = props.res2;
   const df0 = res2.def;
   const e0 = res2.dat;
-  const d0 = e0[0];
-  const d1 = d0.val;
-  const l0 = e0[e0.length - 1];
 
   const dmx1 = df0.mx + 2;
   const shn = props.res2.def.shn;
@@ -115,76 +118,6 @@ const Pyramid2 = (props) => {
     });
   });
 
-  const toPercent = (decimal, fixed1 = 0) =>
-    `${(decimal * 100).toFixed(fixed1)}%`;
-  const toPercent2 = (decimal) => `${(decimal * 100).toFixed(0)}%`;
-
-  const getPercent = (value, total) => {
-    const ratio = total > 0 ? value / total : 0;
-
-    return toPercent(ratio, 2);
-  };
-
-  const rsp1 = {
-    女性: "女性",
-    男性: "男性",
-  };
-  const renderColorfulLegendText = (value, entry) => {
-    const { color } = entry;
-
-    return <span style={{ color }}>{rsp1[value]}</span>;
-  };
-
-  const renderTooltipContent = (o) => {
-    const { payload, label } = o;
-    const total = payload.reduce((result, entry) => result + entry.value, 0);
-    return (
-      <div className="squaire-toolbox">
-        <Box
-          sx={{
-            backgroundColor: "white",
-            opacity: "0.9",
-            padding: "5px 10px 5px 10px",
-          }}
-        >
-          <Typography className="total">{`${label}年 (合計: ${total.toLocaleString()} )`}</Typography>
-          <Grid
-            container
-            rowspacing={1}
-            columns={6}
-            columnSpacing={1}
-            maxWidth="300px"
-          >
-            {[...payload].reverse().map((entry, index) => (
-              <React.Fragment key={`item-${index}`}>
-                <Grid item xs={1.5}>
-                  <Typography sx={{ fontSize: "1.2em", color: entry.color }}>
-                    {`${rsp1[entry.name]}`}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2.5}>
-                  <Typography
-                    sx={{ fontSize: "1.2em", color: entry.color }}
-                    align="right"
-                  >
-                    {`${entry.value.toLocaleString()}`}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography
-                    sx={{ fontSize: "1.2em", color: entry.color }}
-                    align="right"
-                  >
-                    {`${getPercent(entry.value, total)}`}
-                  </Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
-        </Box>
-      </div>
-    );
-  };
   // const CustomTooltip1 = ({ active, payload, label }) => {
   //   if (active && payload && payload.length) {
   //     const sum1 = Number(payload[0].value) + Number(payload[1].value);
@@ -362,9 +295,9 @@ const Pyramid2 = (props) => {
             <tr>
               <td>同成分薬</td>
               <td>
-                <Grid container columns={12}>
+                <Grid container>
                   {df0.dsm.map((n1, i1) => (
-                    <Grid key={"s" + i1} item xs={12} lg={6}>
+                    <Grid key={"s" + i1} size={{ xs: 12, lg: 6 }}>
                       <Link
                         prefetch={false}
                         href={
@@ -382,7 +315,7 @@ const Pyramid2 = (props) => {
           </tbody>
         </table>
       </Box>
-      {df0.ei2 == "ind" && (
+      {df0.ei2 == "ind" && isMounted && (
         <Yakka
           con_name={con_name}
           res2={props.res2}
@@ -392,7 +325,7 @@ const Pyramid2 = (props) => {
           lineColor={"#8884d8"}
         />
       )}
-      {df0.ei2 == "ind" && (
+      {df0.ei2 == "ind" && isMounted && (
         <Yakka
           con_name={con_name}
           res2={props.res2}
@@ -402,7 +335,7 @@ const Pyramid2 = (props) => {
           lineColor={palette1[15]}
         />
       )}
-      {df0.ei2 == "gen" && (
+      {df0.ei2 == "gen" && isMounted && (
         <Generic
           res2={res2}
           genData={sale3Data}
@@ -410,7 +343,7 @@ const Pyramid2 = (props) => {
           dataType={"sales"}
         />
       )}
-      {df0.ei2 == "gen" && (
+      {df0.ei2 == "gen" && isMounted && (
         <Generic
           res2={res2}
           genData={genData}
@@ -419,8 +352,93 @@ const Pyramid2 = (props) => {
         />
       )}
 
-      <Kubun res2={res2} sumData={sumData} con_name={con_name} />
+      {isMounted && <Kubun res2={res2} sumData={sumData} con_name={con_name} />}
 
+      {isMounted && (
+        <AreaSex con_name={con_name} e0={e0} df0={df0} chartData={chartData} />
+      )}
+
+      {isMounted && <Pyramid3 res2={res2} marks={marks} con_name={con_name} />}
+
+      {isMounted && <Map1 res2={res2} marks={marks} con_name={con_name} />}
+    </>
+  );
+};
+export default Pyramid2;
+///////////
+const AreaSex = ({ con_name, e0, df0, chartData }) => {
+  const d0 = e0[0];
+  const d1 = d0.val;
+  const l0 = e0[e0.length - 1];
+  ////////
+  const rsp1 = {
+    女性: "女性",
+    男性: "男性",
+  };
+  const toPercent = (decimal, fixed1 = 0) =>
+    `${(decimal * 100).toFixed(fixed1)}%`;
+  const toPercent2 = (decimal) => `${(decimal * 100).toFixed(0)}%`;
+
+  const getPercent = (value, total) => {
+    const ratio = total > 0 ? value / total : 0;
+
+    return toPercent(ratio, 2);
+  };
+
+  const renderColorfulLegendText = (value, entry) => {
+    const { color } = entry;
+
+    return <span style={{ color }}>{rsp1[value]}</span>;
+  };
+
+  const renderTooltipContent = (o) => {
+    const { payload, label } = o;
+    const total = payload.reduce((result, entry) => result + entry.value, 0);
+    return (
+      <div className="squaire-toolbox">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            opacity: "0.9",
+            padding: "5px 10px 5px 10px",
+          }}
+        >
+          <Typography className="total">{`${label}年 (合計: ${total.toLocaleString()} )`}</Typography>
+          <Grid container rowspacing={1} columnSpacing={1} maxWidth="300px">
+            {[...payload].reverse().map((entry, index) => (
+              <React.Fragment key={`item-${index}`}>
+                <Grid fontSize={0.5}>
+                  <Typography sx={{ fontSize: "1.2em", color: entry.color }}>
+                    {`${rsp1[entry.name]}`}
+                  </Typography>
+                </Grid>
+                <Grid size={2.5}>
+                  <Typography
+                    sx={{ fontSize: "1.2em", color: entry.color }}
+                    align="right"
+                  >
+                    {`${entry.value.toLocaleString()}`}
+                  </Typography>
+                </Grid>
+                <Grid size={2}>
+                  <Typography
+                    sx={{ fontSize: "1.2em", color: entry.color }}
+                    align="right"
+                  >
+                    {`${getPercent(entry.value, total)}`}
+                  </Typography>
+                </Grid>
+              </React.Fragment>
+            ))}
+          </Grid>
+        </Box>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      {" "}
       <Typography conmponent="h2" variant="h2">
         {con_name}の男女別の処方数 {l0.yrs}〜{d0.yrs}年【{df0.kbd}】
       </Typography>
@@ -466,14 +484,9 @@ const Pyramid2 = (props) => {
           <Legend formatter={renderColorfulLegendText} />
         </AreaChart>
       </ResponsiveContainer>
-
-      <Pyramid3 res2={res2} marks={marks} con_name={con_name} />
-
-      <Map1 res2={res2} marks={marks} con_name={con_name} />
     </>
   );
 };
-export default Pyramid2;
 
 const Pyramid3 = (props) => {
   const marks = props.marks;
@@ -743,11 +756,6 @@ const Map1 = (props) => {
       setMpop(m0.find((s) => s.yrs == mvalue).val.pf);
     }
   }, [mvalue, m0]);
-  const [isMounted, setIsMounted] = useState(false); // Need this for the react-tooltip
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const html2 = useMemo(() => {
     if (!(gid && mdata)) return null;
 
