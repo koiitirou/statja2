@@ -12,6 +12,33 @@
 // このパスは、プロジェクトのルートディレクトリからの相対パスです。
 const prescriptionPathData = require("./components/data/path_ndb/sum_prescription_path.json");
 
+// --- 確認用コードここから ---
+console.log("--- Checking prescriptionPathData ---");
+if (prescriptionPathData) {
+  console.log("prescriptionPathData loaded successfully.");
+  // データ構造の確認 (例: path 配列が存在し、要素があるか)
+  if (prescriptionPathData.path && Array.isArray(prescriptionPathData.path)) {
+    console.log(`Number of items in path: ${prescriptionPathData.path.length}`);
+    // 最初の数件のデータや、全体のキーなどを表示してみる
+    console.log(
+      "First few items (or keys):",
+      JSON.stringify(prescriptionPathData.path.slice(0, 2), null, 2)
+    );
+  } else {
+    console.error(
+      'prescriptionPathData does not have the expected "path" array.'
+    );
+  }
+  // 全体のデータ構造をざっくり確認したい場合 (データが大きい場合は注意)
+  // console.log('Full data structure (summary):', Object.keys(prescriptionPathData));
+} else {
+  console.error(
+    "Failed to load prescriptionPathData. It is undefined or null."
+  );
+}
+console.log("--- End of check ---");
+// --- 確認用コードここまで ---
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   // 既存の設定
