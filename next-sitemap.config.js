@@ -41,63 +41,75 @@ console.log("--- End of check ---");
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  // 既存の設定
   siteUrl: "https://statja.com",
-  generateRobotsTxt: true, // robots.txt を生成する
-  sitemapSize: 7000, // 1つのサイトマップファイルに含めるURLの最大数
+  generateRobotsTxt: true,
+  sitemapSize: 7000,
 
-  // （オプション）サイトマップエントリのデフォルト値を設定
-  // これらは transform 関数内で config オブジェクト経由で参照されます。
-  // 設定しない場合は next-sitemap の内部デフォルト値が使用されます。
-  // changefreq: 'daily',
-  // priority: 0.7,
-  // autoLastmod: true, // デフォルトでtrue。最終更新日時を自動で付与します。
-
-  // このtransform関数は、静的ファイルから生成されたパス、
-  // getServerSidePropsから生成されたパス（Pages Routerの場合）、
-  // そしてadditionalPathsで追加されたパスなど、全てのパスに適用されます。
   transform: async (config, path) => {
-    // path は '/ndb/prescription/xxxx' のようなサイトのルートからの相対パスです。
-
-    // 特定のパスに対して優先度や更新頻度をカスタマイズする例：
-    // if (path === '/') {
-    //   return {
-    //     loc: path,
-    //     changefreq: 'daily',
-    //     priority: 1.0,
-    //     lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-    //   };
-    // }
-
-    // デフォルトの処理：設定された値またはnext-sitemapのデフォルト値を使用
+    // --- transform 関数の実行確認 (ステップ3用) ---
+    console.log(`Transforming path: ${path}`);
+    // ---
     return {
-      loc: path, // 必須: URLのロケーション
-      changefreq: config.changefreq, // <changefreq>
-      priority: config.priority, // <priority>
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined, // <lastmod>
-      alternateRefs: config.alternateRefs || [], // 代替言語ページがない場合は空配列
+      loc: path,
+      changefreq: config.changefreq,
+      priority: config.priority,
+      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+      alternateRefs: config.alternateRefs || [],
     };
   },
 
-  // 動的に生成されるページのパスをリストアップする非同期関数
   additionalPaths: async (config) => {
-    const paths = [];
-
-    if (prescriptionPathData && prescriptionPathData.path) {
-      prescriptionPathData.path.forEach((entry) => {
-        // JSONファイル内のデータ構造 (entry.params.id2) に合わせてパスを構築
-        // 例: entry が { params: { id2: 'someValue' } } のようなオブジェクトであると仮定
-        if (entry.params && entry.params.id2) {
-          // ユーザー指定のURL形式: domain/ndb/prescription/**
-          const actualPath = `/ndb/prescription/${entry.params.id2}`;
-          paths.push(actualPath);
-        }
-      });
-    }
-
-    // ここではパス文字列の配列を返します。
-    // これらのパスは上記の `transform` 関数によって処理され、
-    // 完全なサイトマップエントリオブジェクトに変換されます。
-    return paths;
+    console.log("--- Running additionalPaths (minimal test) ---");
+    const testPaths = [
+      "/ndb/prescription/test-page-1",
+      "/ndb/prescription/test-page-2",
+    ];
+    console.log(
+      "[additionalPaths] Returning test paths:",
+      JSON.stringify(testPaths)
+    );
+    return testPaths;
   },
+
+  // additionalPaths: async (config) => {
+  //   // --- additionalPaths 関数の実行確認と詳細ログ ---
+  //   console.log("--- Running additionalPaths function ---");
+  //   const paths = [];
+
+  //   if (
+  //     prescriptionPathData &&
+  //     prescriptionPathData.path &&
+  //     Array.isArray(prescriptionPathData.path)
+  //   ) {
+  //     console.log(
+  //       `[additionalPaths] prescriptionPathData.path contains ${prescriptionPathData.path.length} items.`
+  //     );
+  //     prescriptionPathData.path.forEach((entry, index) => {
+  //       console.log(
+  //         `[additionalPaths] Processing entry ${index}:`,
+  //         JSON.stringify(entry)
+  //       );
+  //       if (entry.params && entry.params.id2) {
+  //         const actualPath = `/ndb/prescription/${entry.params.id2}`;
+  //         console.log(`[additionalPaths] Adding path: ${actualPath}`);
+  //         paths.push(actualPath);
+  //       } else {
+  //         console.warn(
+  //           `[additionalPaths] Entry ${index} is missing params.id2 or params itself. Entry:`,
+  //           JSON.stringify(entry)
+  //         );
+  //       }
+  //     });
+  //   } else {
+  //     console.warn(
+  //       "[additionalPaths] prescriptionPathData.path is not a valid array or prescriptionPathData is not loaded."
+  //     );
+  //   }
+  //   console.log(
+  //     `[additionalPaths] Returning ${paths.length} paths:`,
+  //     JSON.stringify(paths)
+  //   );
+  //   // ---
+  //   return paths;
+  // },
 };
