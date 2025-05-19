@@ -104,6 +104,12 @@ export default async function Page({ params }) {
     notFound();
   }
   const { title, description } = generateTitleAndDescription(ssg1);
+  if (!title || title.trim() === "") {
+    console.warn(
+      `Title could not be generated for id2: ${id2}. Marking as notFound.`
+    );
+    notFound();
+  }
   return (
     <>
       <Content title={title} description={description} ssg1={ssg1} />{" "}
