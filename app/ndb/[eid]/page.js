@@ -22,11 +22,15 @@ export async function generateStaticParams() {
 //   return { title, description };
 // }
 
-// async function fetchAndProcessData(id2) {
-//   const res = await fetch(`${server}/prescription/${id2}.json`);
-//   const ssg1 = await res.json();
-//   return ssg1;
-// }
+async function fetchAndProcessData(eid) {
+  const res = await fetch(`${server}/shohou/${eid}_ind_ssg.json`);
+  //const res = await fetch(`${server}/wor/2_0_cov_Cel_int.json`);
+  const ssg1 = await res.json();
+  const res1 = await fetch(`${server}/shohou/${eid}_gen_ssg.json`);
+  //const res = await fetch(`${server}/wor/2_0_cov_Cel_int.json`);
+  const ssg2 = await res1.json();
+  return { ssg1, ssg2 };
+}
 
 // export async function generateMetadata({ params }) {
 //   const { id2 } = await params;
@@ -44,7 +48,7 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }) {
   const { eid } = await params;
-  //   const ssg1 = await fetchAndProcessData(id2);
+  const { ssg1, ssg2 } = await fetchAndProcessData(eid);
   //   const { title, description } = generateTitleAndDescription(ssg1);
   return (
     <>
