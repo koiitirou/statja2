@@ -58,18 +58,60 @@ module.exports = {
   //   };
   // },
 
+  // additionalPaths の戻り値をオブジェクトの配列に変更
   additionalPaths: async (config) => {
-    console.log("--- Running additionalPaths (minimal test) ---");
+    console.log("--- Running additionalPaths (test with objects) ---");
+    const currentDate = new Date().toISOString(); // lastmod 用に現在時刻を取得
     const testPaths = [
-      "/ndb/prescription/test-page-1",
-      "/ndb/prescription/test-page-2",
+      {
+        loc: "/ndb/prescription/test-page-1",
+        lastmod: currentDate,
+        changefreq: "daily", // 例
+        priority: 0.7, // 例
+      },
+      {
+        loc: "/ndb/prescription/test-page-2",
+        lastmod: currentDate,
+        changefreq: "weekly", // 例
+        priority: 0.6, // 例
+      },
     ];
+    // 実際のデータを使う場合は以下のようにします
+    // const paths = [];
+    // if (prescriptionPathData && prescriptionPathData.path) {
+    //   prescriptionPathData.path.forEach((entry) => {
+    //     if (entry.params && entry.params.id2) {
+    //       paths.push({
+    //         loc: `/ndb/prescription/${entry.params.id2}`,
+    //         lastmod: currentDate, // または実際の最終更新日
+    //         changefreq: 'monthly', // 適宜設定
+    //         priority: 0.5,         // 適宜設定
+    //       });
+    //     }
+    //   });
+    // }
+    // console.log('[additionalPaths] Returning path objects:', JSON.stringify(paths.slice(0,5))); // データが多い場合は一部表示
+    // return paths;
+
     console.log(
-      "[additionalPaths] Returning test paths:",
+      "[additionalPaths] Returning test path objects:",
       JSON.stringify(testPaths)
     );
-    return testPaths;
+    return testPaths; // まずはテストパスで試します
   },
+
+  // additionalPaths: async (config) => {
+  //   console.log("--- Running additionalPaths (minimal test) ---");
+  //   const testPaths = [
+  //     "/ndb/prescription/test-page-1",
+  //     "/ndb/prescription/test-page-2",
+  //   ];
+  //   console.log(
+  //     "[additionalPaths] Returning test paths:",
+  //     JSON.stringify(testPaths)
+  //   );
+  //   return testPaths;
+  // },
 
   // additionalPaths: async (config) => {
   //   // --- additionalPaths 関数の実行確認と詳細ログ ---
