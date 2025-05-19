@@ -45,18 +45,18 @@ module.exports = {
   generateRobotsTxt: true,
   sitemapSize: 7000,
 
-  transform: async (config, path) => {
-    // --- transform 関数の実行確認 (ステップ3用) ---
-    console.log(`Transforming path: ${path}`);
-    // ---
-    return {
-      loc: path,
-      changefreq: config.changefreq,
-      priority: config.priority,
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-      alternateRefs: config.alternateRefs || [],
-    };
-  },
+  // transform: async (config, path) => {
+  //   // --- transform 関数の実行確認 (ステップ3用) ---
+  //   console.log(`Transforming path: ${path}`);
+  //   // ---
+  //   return {
+  //     loc: path,
+  //     changefreq: config.changefreq,
+  //     priority: config.priority,
+  //     lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+  //     alternateRefs: config.alternateRefs || [],
+  //   };
+  // },
 
   additionalPaths: async (config) => {
     console.log("--- Running additionalPaths (minimal test) ---");
