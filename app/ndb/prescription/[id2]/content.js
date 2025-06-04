@@ -6,12 +6,12 @@ import { Typography, Box } from "@mui/material";
 import Windowed from "components/function/prescription_windowed";
 import Pyramid2 from "components/function/Prescription_pyramid";
 
-const rep1 = {
-  ndb: "処方薬ランキング",
-  prescription: "処方薬",
-};
-
-const Content = ({ title, description, ssg1 }) => {
+const Content = ({ title, description, ssg1, id2 }) => {
+  const rep1 = {
+    ndb: "処方薬ランキング",
+    prescription: "処方薬",
+    [id2]: ssg1.def.dn2,
+  };
   const con_name = ssg1.def.dn2;
   return (
     <HideBar>

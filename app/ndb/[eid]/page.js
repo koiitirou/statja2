@@ -52,7 +52,7 @@ export default async function Page({ params }) {
   //   const { title, description } = generateTitleAndDescription(ssg1);
   return (
     <>
-      <Content />
+      <Content ssg1={ssg1} ssg2={ssg2} eid={eid} />
     </>
   );
 }

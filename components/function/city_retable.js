@@ -78,7 +78,7 @@ const App = ({ ssg1, did1, marks, column0, graphList, time_list2 }) => {
         2: true,
       });
     }
-  }, [did1, isLoaded]);
+  }, []);
   ///
   useEffect(() => {
     if (isLoaded & (ydata != null)) {

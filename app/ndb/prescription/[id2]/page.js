@@ -112,7 +112,7 @@ export default async function Page({ params }) {
   }
   return (
     <>
-      <Content title={title} description={description} ssg1={ssg1} />{" "}
+      <Content title={title} description={description} ssg1={ssg1} id2={id2} />
     </>
   );
 }
