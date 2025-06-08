@@ -33,7 +33,6 @@ const Content = ({ ssg1, ssg2, eid }) => {
     { value: "sls", label: "売上", unit: "円", rev: false },
     { value: "gum", label: "後発率", unit: "%", rev: false },
   ];
-  console.log(ssg2);
   return (
     <HideBar>
       <NextBreadcrumbs rep1={rep1} />
