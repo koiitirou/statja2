@@ -69,7 +69,7 @@ const pagesHref = [
   "/world/",
   "/prefecture/",
   "/city/",
-  "hospital/",
+  "/hospital/",
   "/ndb/",
   "/ndb/checkup/",
 ];

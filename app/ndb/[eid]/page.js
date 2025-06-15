@@ -6,21 +6,26 @@ export const dynamicParams = false;
 
 const array4 = pre_path0.epath;
 
+const kbn1 = {
+  nai: "内服",
+  gai: "外用",
+  tyu: "注射",
+};
+
 export async function generateStaticParams() {
   const res3 = array4.map((v) => v.params);
   return res3;
 }
 
-// function generateTitleAndDescription(ssg1) {
-//   const con_name = ssg1.def.dn2;
-//   const d0 = ssg1.dat[0];
-//   const l0 = ssg1.dat[ssg1.dat.length - 1];
-//   const title = `${con_name}の売上・処方数・薬価${l0.yrs}~${d0.yrs}【${ssg1.def.kbd}】`;
-
-//   const description = `${con_name}の${l0.yrs}~${d0.yrs}年の売上、薬価、${ssg1.def.shn}処方数（年齢(5歳階級)、性別、都道府県別）をまとめました。`;
-
-//   return { title, description };
-// }
+function generateTitleAndDescription(ssg1) {
+  const title = `${ssg1.def.enm}の処方薬ランキング${ssg1.def.tmn}〜${
+    ssg1.def.tmx
+  }【売上・処方数・薬価】 【${kbn1[ssg1.def.kbn]}】`;
+  const description = `${ssg1.def.enm}の治療薬（${
+    kbn1[ssg1.def.kbn]
+  }）ランキング一覧です。くすりの処方数・売上・前年比の推移を比較。`;
+  return { title, description };
+}
 
 async function fetchAndProcessData(eid) {
   const res = await fetch(`${server}/shohou/${eid}_ind_ssg.json`);
@@ -32,27 +37,34 @@ async function fetchAndProcessData(eid) {
   return { ssg1, ssg2 };
 }
 
-// export async function generateMetadata({ params }) {
-//   const { id2 } = await params;
-//   const ssg1 = await fetchAndProcessData(id2);
-//   const { title, description } = generateTitleAndDescription(ssg1);
-//   return {
-//     title: title,
-//     description: description,
-//     openGraph: {
-//       title: title,
-//       description: description,
-//     },
-//   };
-// }
+export async function generateMetadata({ params }) {
+  const { eid } = await params;
+  const { ssg1, ssg2 } = await fetchAndProcessData(eid);
+  const { title, description } = generateTitleAndDescription(ssg1);
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+    },
+  };
+}
 
 export default async function Page({ params }) {
   const { eid } = await params;
   const { ssg1, ssg2 } = await fetchAndProcessData(eid);
-  //   const { title, description } = generateTitleAndDescription(ssg1);
+  const { title, description } = generateTitleAndDescription(ssg1);
   return (
     <>
-      <Content ssg1={ssg1} ssg2={ssg2} eid={eid} />
+      <Content
+        ssg1={ssg1}
+        ssg2={ssg2}
+        eid={eid}
+        kbn1={kbn1}
+        title={title}
+        description={description}
+      />
     </>
   );
 }

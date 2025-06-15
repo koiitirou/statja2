@@ -7,18 +7,13 @@ import Windowed from "components/function/prescription_windowed";
 import Retable from "components/function/shohou_retable";
 import Retable_generic from "components/function/shohou_retable_generic";
 
-const Content = ({ ssg1, ssg2, eid }) => {
+const Content = ({ ssg1, ssg2, eid, kbn1, title, description }) => {
   const rep1 = {
     ndb: "処方薬ランキング",
     prescription: "処方薬",
     [eid]: ssg1.def.enm,
   };
   const did1 = eid;
-  const kbn1 = {
-    nai: "内服",
-    gai: "外用",
-    tyu: "注射",
-  };
   const graphList = [
     { value: "rnk", label: "順位", unit: "位", rev: true },
     { value: "sum", label: `処方数`, unit: `${ssg1.def.unt}`, rev: false },
@@ -37,6 +32,9 @@ const Content = ({ ssg1, ssg2, eid }) => {
     <HideBar>
       <NextBreadcrumbs rep1={rep1} />
       <Windowed />
+      <Typography variant="h1" component="h1">
+        {title}
+      </Typography>
       <Retable
         did1={did1}
         ssg1={ssg1}

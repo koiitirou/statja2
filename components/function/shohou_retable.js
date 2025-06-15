@@ -93,8 +93,6 @@ const App = ({ ssg1, did1, ssg2, kbn1, graphList }) => {
     return [...uniqueDngValues];
   }, [ssg1]);
 
-  console.log(optionsForFilter);
-
   // (Appコンポーネントの外、またはAppコンポーネント内で定義)
   function DropdownColumnFilter({ column, options }) {
     const filterValue = column.getFilterValue() || ""; // 現在のフィルター値を取得 (未設定なら空文字)
@@ -569,9 +567,6 @@ const App = ({ ssg1, did1, ssg2, kbn1, graphList }) => {
 
   return (
     <Box>
-      <Typography variant="h1" component="h1">
-        {title1}
-      </Typography>
       <Typography variant="body1">
         {"　"}
         {ssg1?.def?.tmn ?? ""}〜{ssg1?.def?.tmx ?? ""}年の

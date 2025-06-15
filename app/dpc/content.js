@@ -2,6 +2,7 @@
 import HideBar from "components/layout/hidebar";
 import Search_dpc from "components/function/search_dpc";
 import PopularClient from "components/function/popularClient.js";
+import NextBreadcrumbs from "components/function/bcv15";
 import { Box, Typography } from "@mui/material";
 import classes from "components/css/retable.module.css";
 import Link from "next/link";
@@ -16,7 +17,6 @@ import {
 } from "@tanstack/react-table";
 import { useState, useEffect, React } from "react";
 import { rankItem } from "@tanstack/match-sorter-utils";
-import NextBreadcrumbs from "components/function/bcv15";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -35,56 +35,59 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 
 const columnHelper = createColumnHelper();
 
-const Content = ({ data, options2, title, description }) => {
+const rep1 = {
+  dpc: "病気名一覧",
+  hospital: "病院一覧",
+};
+
+const Content = ({ title, description, data, options1 }) => {
   const [sorting, setSorting] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [columnFilters, setColumnFilters] = useState([]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0, // Initial page index
-    pageSize: 100, // Number of rows per page
-  });
+  //   const [pagination, setPagination] = useState({
+  //     pageIndex: 0, // Initial page index
+  //     pageSize: 100, // Number of rows per page
+  //   });　//pagination
 
   const columns = [
-    columnHelper.accessor("short_name", {
-      header: "都道府県",
-      enableGlobalFilter: false,
+    columnHelper.accessor("nic", {
+      header: "診断分類",
     }),
-    columnHelper.accessor("hs2", {
-      header: "病院名",
+    columnHelper.accessor("di2", {
+      header: "病気名",
       cell: (info) => (
-        <Link href={"/hospital/" + info.getValue()[1]}>
+        <Link prefetch={false} href={"/dpc/" + info.getValue()[1]}>
           {info.getValue()[0]}
         </Link>
       ),
     }),
+    // '治療実績'のグループ
     columnHelper.group({
-      header: "病床数",
+      header: "治療実績(件数)",
       columns: [
-        columnHelper.accessor("bll", {
-          header: "総病床",
+        columnHelper.accessor("kll", {
+          header: "合計",
         }),
-        columnHelper.accessor("dpb", {
-          header: "DPC病床",
+        columnHelper.accessor("kes", {
+          header: "手術あり",
+        }),
+        columnHelper.accessor("kon", {
+          header: "手術なし",
         }),
       ],
     }),
+    // '在院日数'のグループ
     columnHelper.group({
-      header: "入院患者数　月あたりの数",
+      header: "在院日数(日)",
       columns: [
-        columnHelper.accessor("apn", {
-          header: "全患者",
+        columnHelper.accessor("zll", {
+          header: "合計",
         }),
-        columnHelper.accessor("amn", {
-          header: "救急車搬送",
+        columnHelper.accessor("zes", {
+          header: "手術あり",
         }),
-        columnHelper.accessor("e1n", {
-          header: "予定外",
-        }),
-        columnHelper.accessor("e2n", {
-          header: "救急医療",
-        }),
-        columnHelper.accessor("rfn", {
-          header: "他院紹介",
+        columnHelper.accessor("zon", {
+          header: "手術なし",
         }),
       ],
     }),
@@ -96,14 +99,14 @@ const Content = ({ data, options2, title, description }) => {
     state: {
       sorting,
       globalFilter,
-      pagination,
+      //   pagination, //pagination
       columnFilters, // ▲ 追加
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters, // ▲ 追加
-    onPaginationChange: setPagination,
-    getPaginationRowModel: getPaginationRowModel(),
+    // onPaginationChange: setPagination, //pagination
+    // getPaginationRowModel: getPaginationRowModel(), //pagination
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     // globalFilterFn: "text",
@@ -115,10 +118,6 @@ const Content = ({ data, options2, title, description }) => {
     // enableGlobalFilter: true,
   });
 
-  const rep1 = {
-    dpc: "病気名一覧",
-    hospital: "病院一覧",
-  };
   return (
     <HideBar>
       <NextBreadcrumbs rep1={rep1} />
@@ -130,19 +129,20 @@ const Content = ({ data, options2, title, description }) => {
       <Typography variant="h1">{title}</Typography>
       <Typography variant="body1">　{description}</Typography>
       <Typography variant="body1">
-        　DPC病院一覧から、全国・各都道府県の病院の診療実績（症例数、手術数、在院日数）を比較することができます。
+        　DPC診断病名分類の一覧から、全国・各都道府県の病院の診療実績（症例数、手術数、在院日数）のランキング、年次推移を比較することができます。
       </Typography>
+
       <Box className={classes.retable} sx={{ overflowX: "auto" }}>
         <Box sx={{ display: "flex", gap: 2, p: 1, alignItems: "center" }}>
           {/* 都道府県フィルター用のドロップダウン */}
           <select
-            value={table.getColumn("short_name")?.getFilterValue() ?? ""}
+            value={table.getColumn("nic")?.getFilterValue() ?? ""}
             onChange={(e) =>
-              table.getColumn("short_name")?.setFilterValue(e.target.value)
+              table.getColumn("nic")?.setFilterValue(e.target.value)
             }
           >
-            <option value="">すべての都道府県</option>
-            {options2?.map((pref) => (
+            <option value="">すべての診断分類</option>
+            {options1?.map((pref) => (
               <option key={pref} value={pref}>
                 {pref}
               </option>
@@ -151,7 +151,7 @@ const Content = ({ data, options2, title, description }) => {
           <DebouncedInput
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(String(value))}
-            placeholder="病院名..."
+            placeholder="病気名..."
           />
         </Box>
         <table className={classes.table3}>
@@ -194,73 +194,6 @@ const Content = ({ data, options2, title, description }) => {
             ))}
           </tbody>
         </table>
-        {/* ← ADDED: Pagination Controls UI //pagination */}
-        <Box
-          className="pagination-controls"
-          sx={{
-            p: 2,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <button
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<<"}
-          </button>
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </button>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </button>
-          <button
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {">>"}
-          </button>
-          <Typography component="span" sx={{ mx: 1 }}>
-            Page{" "}
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </strong>
-          </Typography>
-          <Typography component="span">
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              style={{ width: "60px", marginLeft: "5px", marginRight: "5px" }}
-            />
-          </Typography>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[100, 500, 1000, 5000, 10000].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </Box>
       </Box>
     </HideBar>
   );

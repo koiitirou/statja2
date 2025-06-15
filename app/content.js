@@ -53,7 +53,7 @@ const Content = ({ title, description }) => {
           icon1={<FavoriteIcon sx={{ fill: "#007FFF" }} fontSize="large" />}
         />
         <Blogcard
-          href1="/dpc/"
+          href1="/hospital/"
           title1="病院実績ランキング"
           sub1="日本のDPC病院一覧、診断病名一覧から治療実績ランキングを比較"
           icon1={
